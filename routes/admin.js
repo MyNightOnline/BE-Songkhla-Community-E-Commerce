@@ -20,7 +20,7 @@ router.get('/', (req, res) => {
 router.post('/create', (req, res) => {
     const data = req.body
     try {
-        adminModel.checkUsernameAdmin(data, (err, results) => {
+        adminModel.checkRepeatUsernameAdmin(data, (err, results) => {
             if (err) {
                 res.send(err)
             }
@@ -39,6 +39,10 @@ router.post('/create', (req, res) => {
         console.log(err)
         return res.status(500).send()
     }
+})
+
+router.post('/login', (req, res) => {
+    
 })
 
 module.exports = router
