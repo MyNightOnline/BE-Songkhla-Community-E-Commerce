@@ -1,48 +1,11 @@
 const express = require('express')
-const adminModel = require('../models/admin.model')
-
 const router = express.Router()
 
-router.get('/', (req, res) => {
-    try {
-        adminModel.getDataAdmin((err, results) => {
-            if (err) {
-                res.send(err)
-            }
-            res.json(results)
-        })
-    } catch (err) {
-        console.log(err)
-        return res.status(500).send()
-    }
-})
+const adminController = require('../controllers/admin.controller')
 
-router.post('/create', (req, res) => {
-    const data = req.body
-    try {
-        adminModel.checkRepeatUsernameAdmin(data, (err, results) => {
-            if (err) {
-                res.send(err)
-            }
-            if (results[0]['COUNT(username)'] > 0 ) {
-                return res.status(500).send({ err: "This user already exists." })
-            }
-            return adminModel.createAdmin(data, (err, results) => {
-                if (err) {
-                    res.send(err)
-                }
-                res.status(200).send({ success: true });
-            })
-        })
-        
-    } catch (err) {
-        console.log(err)
-        return res.status(500).send()
-    }
-})
-
-router.post('/login', (req, res) => {
-    
-})
+router.get('/', adminController.showUserAdmin)
+router.post('/', adminController.createUserAdmin)
+router.put('/:id', adminController.updateUserAdmin)
+router.delete('/:id', adminController.deleteUserAdmin)
 
 module.exports = router

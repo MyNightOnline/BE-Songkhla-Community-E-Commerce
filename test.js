@@ -1,26 +1,12 @@
-const mysql = require('mysql2')
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
+const myPlaintextPassword = 's0/\/\P4$$w0rD';
+const someOtherPlaintextPassword = 'not_bacon';
 
-const connection = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: '123456789',
-    database: 'product_songkhla',
-    port: '3307'
+bcrypt.hash(myPlaintextPassword, saltRounds, (err, result) => {
+    console.log(result)
 })
 
-connection.connect((err) => {
-    if (err) {
-        return console.error(err)
-    }
-    console.log('MYSQL Connection successfully.')
+bcrypt.compare(myPlaintextPassword, '$2b$10$T/6zGsFwPasP7vKoEFz3Z.gh/pXNbmKM8I1kOLxX.U.3w7Jlc8uIa', (err, result) => {
+    console.log(result)
 })
-
-
-const username = 'mynight2'
-connection
-    .query(`
-        SELECT * FROM users WHERE username = '${username}'
-    `, (err, result, fields) => {
-
-        console.log(result.length)
-    })

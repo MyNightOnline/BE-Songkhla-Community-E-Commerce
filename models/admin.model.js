@@ -1,43 +1,85 @@
+/**
+ * https://mfikri.com/en/blog/nodejs-express-mysql-vue
+ */
 const db = require('../config/db.config')
 const bcrypt = require('bcrypt')
 const saltRounds = 10
 
-// https://mfikri.com/en/blog/nodejs-express-mysql-vue
-const getDataAdmin = (result) => {
-    db.query(`SELECT * FROM admin`, (err, results) => {
+// ค้นผู้ดูแลระบบทั้งหมด
+const getUserAdmin = (result) => {
+    db.query(`SELECT * FROM us_admin`, (err, results) => {
         if (err) {
-            console.log(`Error: ${err}`)
+            console.log(err)
+            result(err, null)
+        } else {
+            result(null, results)
         }
-        result(null, results)
     })
 }
 
-const createAdmin = (data, result) => {
+// เพิ่มผู้ดูแลระบบ
+const insertUserAdmin = (data, result) => {
     const salt = bcrypt.genSaltSync(saltRounds)
     data.password = bcrypt.hashSync(data.password, salt)
-    db.query(`INSERT INTO admin SET ?`, [data], (err, results) => {
+    
+    db.query(`INSERT INTO us_admin SET ?`, [data], (err, results) => {
         if (err) {
-            console.log(`Error: ${err}`)
+            console.log(err)
+            result(err, null)
+        } else {
+            result(null, results)
         }
-        result(null, results)
     })
 }
 
+// เช็คผู้ดูแลระบบซ้ำ 0 = ไม่มี , 1 = มี
 const checkRepeatUsernameAdmin = (data, result) => {
-    db.query(`SELECT COUNT(username) FROM admin WHERE username = ${data.username}`, (err, results) => {
+    db.query(`SELECT COUNT(username) FROM us_admin WHERE username = "${data.username}"`, (err, results) => {
         if (err) {
-            console.log(`Error: ${err}`)
+            console.log(err)
+            result(err, null)
+        } else {
+            result(null, results)
         }
-        result(null, results)
     })
 }
 
-const checkAuthAdmin = (data, result) => {
-    db.query(``)
+// แก้ไขผู้ดูแลระบบโดย id
+const updateUserAdminById = (data, id, result) => {
+    db.query(
+        `UPDATE us_admin SET full_name = ?`,
+        [data.full_name],
+        (err, results) => {
+            if (err) {
+                console.log(err)
+                result(err, null)
+            } else {
+                result(null, results[0])
+            }
+        }
+    )
+}
+
+// ลบผู้ดูแลระบบโดย id
+const deleteUserAdminById = (id, result) => {
+    db.query(
+        `DELETE FROM us_admin WHERE admin_id = ?`,
+        [id],
+        (err, results) => {
+            if (err) {
+                console.log(err)
+                result(err, null)
+            } else {
+                result(null, results[0])
+            }
+        }
+    )
 }
 
 module.exports = {
-    getDataAdmin,
-    createAdmin,
-    checkRepeatUsernameAdmin
+    getUserAdmin,
+    insertUserAdmin,
+    checkRepeatUsernameAdmin,
+    updateUserAdminById,
+    deleteUserAdminById
 }
