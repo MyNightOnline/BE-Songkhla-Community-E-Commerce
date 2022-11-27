@@ -2,9 +2,11 @@ const db = require('../config/db.config')
 const bcrypt = require('bcrypt')
 const saltRounds = 10
 
+const table = 'user_commu'
+
 // ค้นผู้ใช้ทั่วไปทั้งหมด
 const getUserCommu = (result) => {
-    db.query(`SELECT * FROM us_commu`, (err, results) => {
+    db.query(`SELECT * FROM ${table}`, (err, results) => {
         if (err) {
             console.log(err)
             result(err, null)
@@ -17,7 +19,7 @@ const getUserCommu = (result) => {
 // ค้นผู้ใช้โดย id
 const getUserCommuById = (id, result) => {
     db.query(
-        `SELECT * FROM product WHERE us_commu = ?`,
+        `SELECT * FROM product WHERE ${table} = ?`,
         [id],
         (err, results) => {
             if (err) {
@@ -36,7 +38,7 @@ const insertUserCommu = (data, result) => {
     data.password = bcrypt.hashSync(data.password, salt)
     data.confirm_status = 0
     db.query(
-        `INSERT INTO us_commu SET ?`,
+        `INSERT INTO ${table} SET ?`,
         [data], (err, results) => {
             if (err) {
                 console.log(err)
@@ -50,7 +52,7 @@ const insertUserCommu = (data, result) => {
 
 // เช็คผู้ดูแลระบบซ้ำ 0 = ไม่มี , 1 = มี
 const checkRepeatUsernameUserCommu = (data, result) => {
-    db.query(`SELECT COUNT(username) FROM us_commu WHERE username = "${data.username}"`, (err, results) => {
+    db.query(`SELECT COUNT(username) FROM ${table} WHERE username = "${data.username}"`, (err, results) => {
         if (err) {
             console.log(err)
             result(err, null)
@@ -63,8 +65,8 @@ const checkRepeatUsernameUserCommu = (data, result) => {
 // แก้ไขผู้ใช้ทั่วไปโดย id
 const updateUserCommuById = (data, id, result) => {
     db.query(
-        `UPDATE us_commu SET commu_name = ?, telephone = ?, address = ? WHERE commu_id = ?`,
-        [data.commu_name, data.telephone, data.address, id],
+        `UPDATE ${table} SET commu_name = ?, mobile = ?, address = ? WHERE commu_id = ?`,
+        [data.commu_name, data.mobile, data.address, id],
         (err, results) => {
             if (err) {
                 console.log(err)
@@ -79,7 +81,7 @@ const updateUserCommuById = (data, id, result) => {
 // ลบผู้ใช้ทั่วไปโดย id
 const deleteUserCommuById = (id, result) => {
     db.query(
-        `DELETE FROM us_commu WHERE user_id = ?`,
+        `DELETE FROM ${table} WHERE user_id = ?`,
         [id],
         (err, results) => {
             if (err) {

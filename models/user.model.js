@@ -2,9 +2,11 @@ const db = require('../config/db.config')
 const bcrypt = require('bcrypt')
 const saltRounds = 10
 
+const field = "user"
+
 // ค้นผู้ใช้ทั่วไปทั้งหมด
 const getUser = (result) => {
-    db.query(`SELECT * FROM us_user`, (err, results) => {
+    db.query(`SELECT * FROM ${field}`, (err, results) => {
         if (err) {
             console.log(err)
             result(err, null)
@@ -17,7 +19,7 @@ const getUser = (result) => {
 // ค้นผู้ใช้โดย id
 const getUserById = (id, result) => {
     db.query(
-        `SELECT * FROM product WHERE us_user = ?`,
+        `SELECT * FROM ${field} WHERE id = ?`,
         [id],
         (err, results) => {
             if (err) {
@@ -35,13 +37,13 @@ const insertUser = (data, result) => {
     const salt = bcrypt.genSaltSync(saltRounds)
     data.password = bcrypt.hashSync(data.password, salt)
     db.query(
-        `INSERT INTO us_user SET ?`,
+        `INSERT INTO ${field} SET ?`,
         [data], (err, results) => {
             if (err) {
                 console.log(err)
                 result(err, null)
             } else {
-                result(null, results[0])
+                result(null, { message: "Success Create User" })
             }
         }
     )
@@ -49,7 +51,7 @@ const insertUser = (data, result) => {
 
 // เช็คผู้ดูแลระบบซ้ำ 0 = ไม่มี , 1 = มี
 const checkRepeatUsernameUser = (data, result) => {
-    db.query(`SELECT COUNT(username) FROM us_user WHERE username = "${data.username}"`, (err, results) => {
+    db.query(`SELECT COUNT(username) FROM ${field} WHERE username = "${data.username}"`, (err, results) => {
         if (err) {
             console.log(err)
             result(err, null)
@@ -62,8 +64,8 @@ const checkRepeatUsernameUser = (data, result) => {
 // แก้ไขผู้ใช้ทั่วไปโดย id
 const updateUserById = (data, id, result) => {
     db.query(
-        `UPDATE us_user SET full_name = ?, telephone = ?, address = ? WHERE user_id = ?`,
-        [data.full_name, data.telephone, data.address, id],
+        `UPDATE ${field} SET full_name = ?, mobile = ?, address = ? WHERE id = ?`,
+        [data.full_name, data.mobile, data.address, id],
         (err, results) => {
             if (err) {
                 console.log(err)
@@ -78,7 +80,7 @@ const updateUserById = (data, id, result) => {
 // ลบผู้ใช้ทั่วไปโดย id
 const deleteUserById = (id, result) => {
     db.query(
-        `DELETE FROM us_user WHERE user_id = ?`,
+        `DELETE FROM ${field} WHERE id = ?`,
         [id],
         (err, results) => {
             if (err) {

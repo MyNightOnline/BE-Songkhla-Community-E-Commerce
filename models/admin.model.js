@@ -5,9 +5,11 @@ const db = require('../config/db.config')
 const bcrypt = require('bcrypt')
 const saltRounds = 10
 
+const table = "user_admin"
+
 // ค้นผู้ดูแลระบบทั้งหมด
 const getUserAdmin = (result) => {
-    db.query(`SELECT * FROM us_admin`, (err, results) => {
+    db.query(`SELECT * FROM ${table}`, (err, results) => {
         if (err) {
             console.log(err)
             result(err, null)
@@ -22,7 +24,7 @@ const insertUserAdmin = (data, result) => {
     const salt = bcrypt.genSaltSync(saltRounds)
     data.password = bcrypt.hashSync(data.password, salt)
     
-    db.query(`INSERT INTO us_admin SET ?`, [data], (err, results) => {
+    db.query(`INSERT INTO ${table} SET ?`, [data], (err, results) => {
         if (err) {
             console.log(err)
             result(err, null)
@@ -34,7 +36,7 @@ const insertUserAdmin = (data, result) => {
 
 // เช็คผู้ดูแลระบบซ้ำ 0 = ไม่มี , 1 = มี
 const checkRepeatUsernameAdmin = (data, result) => {
-    db.query(`SELECT COUNT(username) FROM us_admin WHERE username = "${data.username}"`, (err, results) => {
+    db.query(`SELECT COUNT(username) FROM ${table} WHERE username = "${data.username}"`, (err, results) => {
         if (err) {
             console.log(err)
             result(err, null)
@@ -47,7 +49,7 @@ const checkRepeatUsernameAdmin = (data, result) => {
 // แก้ไขผู้ดูแลระบบโดย id
 const updateUserAdminById = (data, id, result) => {
     db.query(
-        `UPDATE us_admin SET full_name = ?`,
+        `UPDATE ${table} SET full_name = ?`,
         [data.full_name],
         (err, results) => {
             if (err) {
@@ -63,7 +65,7 @@ const updateUserAdminById = (data, id, result) => {
 // ลบผู้ดูแลระบบโดย id
 const deleteUserAdminById = (id, result) => {
     db.query(
-        `DELETE FROM us_admin WHERE admin_id = ?`,
+        `DELETE FROM ${table} WHERE admin_id = ?`,
         [id],
         (err, results) => {
             if (err) {

@@ -14,7 +14,7 @@ const createUser = (req, res) => {
     const data = req.body
     User.checkRepeatUsernameUser(data, (err, results) => {
         if (results[0]['COUNT(username)'] > 0 ) {
-            return res.status(500).send({ err: "This user already exists." })
+            return res.status(500).send({ err: "This username already exists." })
         } else {
             User.insertUser(data, (err, results) => {
                 if (err) {

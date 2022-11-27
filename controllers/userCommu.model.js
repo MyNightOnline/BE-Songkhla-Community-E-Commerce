@@ -14,7 +14,7 @@ const createUserCommu = (req, res) => {
     const data = req.body
     UserCommu.checkRepeatUsernameUserCommu(data, (err, results) => {
         if (results[0]['COUNT(username)'] > 0 ) {
-            return res.status(500).send({ err: "This user already exists." })
+            return res.status(500).send({ err: "This user commu already exists." })
         } else {
             UserCommu.insertUserCommu(data, (err, results) => {
                 if (err) {
