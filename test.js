@@ -1,12 +1,14 @@
-const bcrypt = require('bcrypt');
-const saltRounds = 10;
-const myPlaintextPassword = 's0/\/\P4$$w0rD';
-const someOtherPlaintextPassword = 'not_bacon';
+const axios = require("axios")
 
-bcrypt.hash(myPlaintextPassword, saltRounds, (err, result) => {
-    console.log(result)
-})
 
-bcrypt.compare(myPlaintextPassword, '$2b$10$T/6zGsFwPasP7vKoEFz3Z.gh/pXNbmKM8I1kOLxX.U.3w7Jlc8uIa', (err, result) => {
-    console.log(result)
-})
+
+axios.get('https://raw.githubusercontent.com/kongvut/thai-province-data/master/api_province_with_amphure_tambon.json')
+.then(function (response) {
+    console.log(response);
+  })
+  .catch(function (error) {
+    console.log(error);
+  })
+  .finally(function () {
+    // always executed
+  });

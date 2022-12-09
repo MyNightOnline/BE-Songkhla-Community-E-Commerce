@@ -7,10 +7,10 @@ const adminRoutes = require('./admin')
 const productRoutes = require('./product')
 const productTypeRoutes = require('./productType')
 
-router.use('/users', userRoutes)
-router.use('/user-commu', userCommuRoutes)
-router.use('/admin', adminRoutes)
-router.use('/products', productRoutes)
-router.use('/product-type', productTypeRoutes)
+router.use('/api/auth/users', userRoutes)
+router.use('/api/auth/user-commu', userCommuRoutes)
+router.use('/api/auth/admin', adminRoutes)
+router.use('/api/products', productRoutes)
+router.use('/api/product-type', productTypeRoutes)
 
 module.exports = router

@@ -38,16 +38,24 @@ const insertUserCommu = (data, result) => {
     data.password = bcrypt.hashSync(data.password, salt)
     data.confirm_status = 0
     db.query(
-        `INSERT INTO ${table} SET ?`,
-        [data], (err, results) => {
-            if (err) {
-                console.log(err)
-                result(err, null)
-            } else {
-                result(null, results[0])
-            }
+        `SELECT district.id FROM district WHERE name = '${data.district}'`,
+        (err, results) => {
+            data.district_id = results[0].id
+            delete data.district
+            db.query(
+                `INSERT INTO ${table} SET ?`,
+                [data], (err, results) => {
+                    if (err) {
+                        console.log(err)
+                        result(err, null)
+                    } else {
+                        result(null, results[0])
+                    }
+                }
+            )
         }
     )
+    
 }
 
 // เช็คผู้ดูแลระบบซ้ำ 0 = ไม่มี , 1 = มี

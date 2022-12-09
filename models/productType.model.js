@@ -2,7 +2,7 @@ const db = require('../config/db.config')
 
 // ค้นประเภทสินค้าทั้งหมด
 const getProductType = (result) => {
-    db.query(`SELECT * FROM product_type`, (err, results) => {
+    db.query(`SELECT * FROM category`, (err, results) => {
         if (err) {
             console.log(err)
             result(err, null)
@@ -15,7 +15,7 @@ const getProductType = (result) => {
 // ค้นประเภทสินค้าโดย id
 const getProductTypeById = (id, result) => {
     db.query(
-        `SELECT * FROM product_type WHERE type_id = ?`,
+        `SELECT * FROM category WHERE id = ?`,
         [id],
         (err, results) => {
             if (err) {
@@ -31,7 +31,7 @@ const getProductTypeById = (id, result) => {
 // เพิ่ม ประเภทสินค้า
 const insertProductType = (data, result) => {
     db.query(
-        `INSERT INTO product_type SET ?`,
+        `INSERT INTO category SET ?`,
         [data], (err, results) => {
             if (err) {
                 console.log(err)
@@ -45,7 +45,7 @@ const insertProductType = (data, result) => {
 
 // เช็คประเภทสินค้าซ้ำ 0 = ไม่มี , 1 = มี
 const checkRepeatProductType = (data, result) => {
-    db.query(`SELECT COUNT(type_name) FROM product_type WHERE type_name = "${data.type_name}"`, (err, results) => {
+    db.query(`SELECT COUNT(title) FROM category WHERE title = "${data.title}"`, (err, results) => {
         if (err) {
             console.log(err)
             result(err, null)
@@ -58,8 +58,8 @@ const checkRepeatProductType = (data, result) => {
 // แก้ไขประเภทสินค้าโดย id
 const updateProductTypeById = (data, id, result) => {
     db.query(
-        `UPDATE product_type SET type_name = ? WHERE type_id = ?`,
-        [data.type_name, id],
+        `UPDATE category SET title = ? WHERE id = ?`,
+        [data.title, id],
         (err, results) => {
             if (err) {
                 console.log(err)
@@ -74,7 +74,7 @@ const updateProductTypeById = (data, id, result) => {
 // ลบประเภทสินค้าโดย id
 const deleteProductTypeById = (id, result) => {
     db.query(
-        `DELETE FROM product_type WHERE type_id = ?`,
+        `DELETE FROM category WHERE id = ?`,
         [id],
         (err, results) => {
             if (err) {

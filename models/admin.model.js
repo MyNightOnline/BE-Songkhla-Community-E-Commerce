@@ -49,8 +49,8 @@ const checkRepeatUsernameAdmin = (data, result) => {
 // แก้ไขผู้ดูแลระบบโดย id
 const updateUserAdminById = (data, id, result) => {
     db.query(
-        `UPDATE ${table} SET full_name = ?`,
-        [data.full_name],
+        `UPDATE ${table} SET full_name = ? WHERE id = ?`,
+        [data.full_name, id],
         (err, results) => {
             if (err) {
                 console.log(err)
@@ -65,7 +65,7 @@ const updateUserAdminById = (data, id, result) => {
 // ลบผู้ดูแลระบบโดย id
 const deleteUserAdminById = (id, result) => {
     db.query(
-        `DELETE FROM ${table} WHERE admin_id = ?`,
+        `DELETE FROM ${table} WHERE id = ?`,
         [id],
         (err, results) => {
             if (err) {
