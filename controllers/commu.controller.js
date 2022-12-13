@@ -20,6 +20,16 @@ const confirmed = (req, res) => {
     })
 }
 
+const pending = (req, res) => {
+    Commu.getPending((err, results) => {
+        if (err) {
+            res.send(err)
+        } else {
+            res.json(results)
+        }
+    })
+}
+
 const showCommuById = (req, res) => {
     Commu.getCommuById(req.params.id, (err, results) => {
         if (err) {
@@ -73,6 +83,7 @@ const deleteCommu = (req, res) => {
 module.exports = {
     showCommu,
     confirmed,
+    pending,
     showCommuById,
     createCommu,
     updateCommu,

@@ -24,6 +24,17 @@ const getCommuConfirmed = (result) => {
     })
 }
 
+const getPending = (result) => {
+    db.query(`SELECT * FROM ${table} WHERE confirm_status = 0`, (err, results) => {
+        if (err) {
+            console.log(err)
+            result(err, null)
+        } else {
+            result(null, results)
+        }
+    })
+}
+
 // ค้นผู้ใช้โดย id
 const getCommuById = (id, result) => {
     
@@ -105,6 +116,7 @@ const deleteCommuById = (id, result) => {
 module.exports = {
     getCommu,
     getCommuConfirmed,
+    getPending,
     getCommuById,
     insertCommu,
     checkRepeatCommu,
