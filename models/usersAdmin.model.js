@@ -5,7 +5,7 @@ const db = require('../config/db.config')
 const bcrypt = require('bcrypt')
 const saltRounds = 10
 
-const table = "user_admin"
+const table = "users_admin"
 
 // ค้นผู้ดูแลระบบทั้งหมด
 const getUserAdmin = (result) => {
@@ -49,7 +49,7 @@ const checkRepeatUsernameAdmin = (data, result) => {
 // แก้ไขผู้ดูแลระบบโดย id
 const updateUserAdminById = (data, id, result) => {
     db.query(
-        `UPDATE ${table} SET full_name = ? WHERE id = ?`,
+        `UPDATE ${table} SET full_name = ? WHERE users_admin_id = ?`,
         [data.full_name, id],
         (err, results) => {
             if (err) {
@@ -65,7 +65,7 @@ const updateUserAdminById = (data, id, result) => {
 // ลบผู้ดูแลระบบโดย id
 const deleteUserAdminById = (id, result) => {
     db.query(
-        `DELETE FROM ${table} WHERE id = ?`,
+        `DELETE FROM ${table} WHERE users_admin_id = ?`,
         [id],
         (err, results) => {
             if (err) {

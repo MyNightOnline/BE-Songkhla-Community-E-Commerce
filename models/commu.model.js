@@ -1,5 +1,6 @@
 const db = require('../config/db.config')
-const table = 'commu'
+
+const table = 'community'
 
 // ค้นผู้ใช้ทั่วไปทั้งหมด
 const getCommu = (result) => {
@@ -71,7 +72,7 @@ const insertCommu = (data, result) => {
 
 // เช็คผู้ดูแลระบบซ้ำ 0 = ไม่มี , 1 = มี
 const checkRepeatCommu = (data, result) => {
-    db.query(`SELECT COUNT(communame) FROM ${table} WHERE communame = "${data.communame}"`, (err, results) => {
+    db.query(`SELECT COUNT(name) FROM ${table} WHERE name = "${data.name}"`, (err, results) => {
         if (err) {
             console.log(err)
             result(err, null)

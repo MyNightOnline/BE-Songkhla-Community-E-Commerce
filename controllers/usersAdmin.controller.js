@@ -1,7 +1,7 @@
-const User = require('../models/user.model')
+const Admin = require('../models/usersAdmin.model')
 
-const showUser = (req, res) => {
-    User.getUser((err, results) => {
+const showUserAdmin = (req, res) => {
+    Admin.getUserAdmin((err, results) => {
         if (err) {
             res.send(err)
         } else {
@@ -10,13 +10,13 @@ const showUser = (req, res) => {
     })
 }
 
-const createUser = (req, res) => {
+const createUserAdmin = (req, res) => {
     const data = req.body
-    User.checkRepeatUsernameUser(data, (err, results) => {
+    Admin.checkRepeatUsernameAdmin(data, (err, results) => {
         if (results[0]['COUNT(username)'] > 0 ) {
-            return res.status(500).send({ err: "This username already exists." })
+            return res.status(500).send({ err: "This user already exists." })
         } else {
-            User.insertUser(data, (err, results) => {
+            Admin.insertUserAdmin(data, (err, results) => {
                 if (err) {
                     res.send(err)
                 } else {
@@ -25,12 +25,13 @@ const createUser = (req, res) => {
             })
         }
     })
+    
 }
 
-const updateUser = (req, res) => {
+const updateUserAdmin = (req, res) => {
     const data = req.body
     const id = req.params.id
-    User.updateUserById(data, id, (err, results) => {
+    Admin.updateUserAdminById(data, id, (err, results) => {
         if (err) {
             res.send(err)
         } else {
@@ -39,9 +40,9 @@ const updateUser = (req, res) => {
     })
 }
 
-const deleteUser = (req, res) => {
+const deleteUserAdmin = (req, res) => {
     const id = req.params.id
-    User.deleteUserById(id, (err, results) => {
+    Admin.deleteUserAdminById(id, (err, results) => {
         if (err) {
             res.send(err)
         } else {
@@ -51,8 +52,8 @@ const deleteUser = (req, res) => {
 }
 
 module.exports = {
-    showUser,
-    createUser,
-    updateUser,
-    deleteUser
+    showUserAdmin,
+    createUserAdmin,
+    updateUserAdmin,
+    deleteUserAdmin
 }

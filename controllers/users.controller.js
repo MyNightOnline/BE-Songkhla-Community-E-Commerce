@@ -1,7 +1,7 @@
-const Admin = require('../models/admin.model')
+const User = require('../models/users.model')
 
-const showUserAdmin = (req, res) => {
-    Admin.getUserAdmin((err, results) => {
+const showUser = (req, res) => {
+    User.getUser((err, results) => {
         if (err) {
             res.send(err)
         } else {
@@ -10,13 +10,13 @@ const showUserAdmin = (req, res) => {
     })
 }
 
-const createUserAdmin = (req, res) => {
+const createUser = (req, res) => {
     const data = req.body
-    Admin.checkRepeatUsernameAdmin(data, (err, results) => {
+    User.checkRepeatUsernameUser(data, (err, results) => {
         if (results[0]['COUNT(username)'] > 0 ) {
-            return res.status(500).send({ err: "This user already exists." })
+            return res.status(500).send({ err: "This username already exists." })
         } else {
-            Admin.insertUserAdmin(data, (err, results) => {
+            User.insertUser(data, (err, results) => {
                 if (err) {
                     res.send(err)
                 } else {
@@ -25,13 +25,12 @@ const createUserAdmin = (req, res) => {
             })
         }
     })
-    
 }
 
-const updateUserAdmin = (req, res) => {
+const updateUser = (req, res) => {
     const data = req.body
     const id = req.params.id
-    Admin.updateUserAdminById(data, id, (err, results) => {
+    User.updateUserById(data, id, (err, results) => {
         if (err) {
             res.send(err)
         } else {
@@ -40,9 +39,9 @@ const updateUserAdmin = (req, res) => {
     })
 }
 
-const deleteUserAdmin = (req, res) => {
+const deleteUser = (req, res) => {
     const id = req.params.id
-    Admin.deleteUserAdminById(id, (err, results) => {
+    User.deleteUserById(id, (err, results) => {
         if (err) {
             res.send(err)
         } else {
@@ -52,8 +51,8 @@ const deleteUserAdmin = (req, res) => {
 }
 
 module.exports = {
-    showUserAdmin,
-    createUserAdmin,
-    updateUserAdmin,
-    deleteUserAdmin
+    showUser,
+    createUser,
+    updateUser,
+    deleteUser
 }

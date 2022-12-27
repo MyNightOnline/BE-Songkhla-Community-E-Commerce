@@ -1,4 +1,4 @@
-const ProductType = require("../models/productType.model") 
+const ProductType = require("../models/category.model") 
 
 const showProductType = (req, res) => {
     ProductType.getProductType((err, results) => {
@@ -23,7 +23,7 @@ const showProductTypeById = (req, res) => {
 const createProductType = (req, res) => {
     const data = req.body
     ProductType.checkRepeatProductType(data, (err, results) => {
-        if (results[0]['COUNT(type_name)'] > 0) {
+        if (results[0]['COUNT(name)'] > 0) {
             return res.status(500).send({ err: "This type name already exists." })
         } else {
             ProductType.insertProductType(data, (err, results) => {

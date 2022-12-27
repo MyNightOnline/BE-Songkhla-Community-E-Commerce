@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 
-const userCommuController = require('../controllers/userCommu.model')
+const userCommuController = require('../controllers/usersCommunity.model')
 
 router.get('/', userCommuController.showUserCommu)
 router.post('/', userCommuController.createUserCommu)

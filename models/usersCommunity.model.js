@@ -2,11 +2,11 @@ const db = require('../config/db.config')
 const bcrypt = require('bcrypt')
 const saltRounds = 10
 
-const field = "user"
+const table = 'users_community'
 
 // ค้นผู้ใช้ทั่วไปทั้งหมด
-const getUser = (result) => {
-    db.query(`SELECT * FROM ${field}`, (err, results) => {
+const getUserCommu = (result) => {
+    db.query(`SELECT * FROM ${table}`, (err, results) => {
         if (err) {
             console.log(err)
             result(err, null)
@@ -17,9 +17,9 @@ const getUser = (result) => {
 }
 
 // ค้นผู้ใช้โดย id
-const getUserById = (id, result) => {
+const getUserCommuById = (id, result) => {
     db.query(
-        `SELECT * FROM ${field} WHERE id = ?`,
+        `SELECT * FROM product WHERE ${table} = ?`,
         [id],
         (err, results) => {
             if (err) {
@@ -33,25 +33,35 @@ const getUserById = (id, result) => {
 }
 
 // เพิ่ม ผู้ใช้ทั่วไป
-const insertUser = (data, result) => {
+const insertUserCommu = (data, result) => {
     const salt = bcrypt.genSaltSync(saltRounds)
     data.password = bcrypt.hashSync(data.password, salt)
     db.query(
-        `INSERT INTO ${field} SET ?`,
+        `
+        INSERT INTO ${table} (username, password, full_name) 
+        VALUES ("${data.username}", "${data.password}", "${data.full_name}")
+        `,
         [data], (err, results) => {
             if (err) {
                 console.log(err)
                 result(err, null)
             } else {
-                result(null, { message: "Success Create User" })
+                db.query(
+                    `
+                    INSERT INTO community (name, address, mobile, regis_code, amp, tam, confirm_status, users_commu_id) 
+                    VALUES ("${data.name}","${data.address}","${data.mobile}","${data.regis_code}","${data.amp}","${data.tam}",0,${results.insertId})
+                    `,
+                )
+                result(null, results)
             }
         }
     )
+    
 }
 
 // เช็คผู้ดูแลระบบซ้ำ 0 = ไม่มี , 1 = มี
-const checkRepeatUsernameUser = (data, result) => {
-    db.query(`SELECT COUNT(username) FROM ${field} WHERE username = "${data.username}"`, (err, results) => {
+const checkRepeatUsernameUserCommu = (data, result) => {
+    db.query(`SELECT COUNT(username) FROM ${table} WHERE username = "${data.username}"`, (err, results) => {
         if (err) {
             console.log(err)
             result(err, null)
@@ -62,10 +72,10 @@ const checkRepeatUsernameUser = (data, result) => {
 }
 
 // แก้ไขผู้ใช้ทั่วไปโดย id
-const updateUserById = (data, id, result) => {
+const updateUserCommuById = (data, id, result) => {
     db.query(
-        `UPDATE ${field} SET full_name = ?, mobile = ?, address = ? WHERE id = ?`,
-        [data.full_name, data.mobile, data.address, id],
+        `UPDATE ${table} SET commu_name = ?, mobile = ?, address = ? WHERE commu_id = ?`,
+        [data.commu_name, data.mobile, data.address, id],
         (err, results) => {
             if (err) {
                 console.log(err)
@@ -78,9 +88,9 @@ const updateUserById = (data, id, result) => {
 }
 
 // ลบผู้ใช้ทั่วไปโดย id
-const deleteUserById = (id, result) => {
+const deleteUserCommuById = (id, result) => {
     db.query(
-        `DELETE FROM ${field} WHERE id = ?`,
+        `DELETE FROM ${table} WHERE user_id = ?`,
         [id],
         (err, results) => {
             if (err) {
@@ -94,10 +104,10 @@ const deleteUserById = (id, result) => {
 }
 
 module.exports = {
-    getUser,
-    getUserById,
-    insertUser,
-    checkRepeatUsernameUser,
-    updateUserById,
-    deleteUserById
+    getUserCommu,
+    getUserCommuById,
+    insertUserCommu,
+    checkRepeatUsernameUserCommu,
+    updateUserCommuById,
+    deleteUserCommuById
 }
