@@ -11,6 +11,9 @@ app.use(express.urlencoded({
     extended: false,
 }))
 
+app.use('/test', (req,res) => {
+    res.send('hello world')
+})
 app.use('/', router)
 
 app.listen(PORT, () => console.log('Server: http://localhost:3001'))
