@@ -40,7 +40,7 @@ const getPending = (result) => {
 const getCommuById = (id, result) => {
     
     db.query(
-        `SELECT * FROM commu WHERE id = ?`,
+        `SELECT * FROM community WHERE commu_id = ?`,
         [id],
         (err, results) => {
             if (err) {
@@ -85,7 +85,7 @@ const checkRepeatCommu = (data, result) => {
 // แก้ไขผู้ใช้ทั่วไปโดย id
 const updateCommuById = (data, id, result) => {
     db.query(
-        `UPDATE ${table} SET ? WHERE id = ${id}`,
+        `UPDATE ${table} SET ? WHERE commu_id = ${id}`,
         [data],
         (err, results) => {
             if (err) {
@@ -101,7 +101,7 @@ const updateCommuById = (data, id, result) => {
 // ลบผู้ใช้ทั่วไปโดย id
 const deleteCommuById = (id, result) => {
     db.query(
-        `DELETE FROM ${table} WHERE id = ?`,
+        `DELETE FROM ${table} WHERE commu_id = ?`,
         [id],
         (err, results) => {
             if (err) {

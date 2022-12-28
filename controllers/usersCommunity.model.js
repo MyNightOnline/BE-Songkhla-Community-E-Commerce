@@ -11,6 +11,26 @@ const showUserCommu = (req, res) => {
     })
 }
 
+const showUserCommuById = (req, res) => {
+    UserCommu.getUserCommuById(req.params.id, (err, results) => {
+        if (err) {
+            res.send(err)
+        } else {
+            res.json(results)
+        }
+    })
+}
+
+const showEditUserCommuById = (req, res) => {
+    UserCommu.getEditUserCommuById(req.params.id, (err, results) => {
+        if (err) {
+            res.send(err)
+        } else {
+            res.json(results)
+        }
+    })
+}
+
 const createUserCommu = (req, res) => {
     const data = req.body
     UserCommu.checkRepeatUsernameUserCommu(data, (err, results) => {
@@ -45,6 +65,7 @@ const updateUserCommu = (req, res) => {
     })
 }
 
+
 const deleteUserCommu = (req, res) => {
     const id = req.params.id
     UserCommu.deleteUserCommuById(id, (err, results) => {
@@ -58,6 +79,8 @@ const deleteUserCommu = (req, res) => {
 
 module.exports = {
     showUserCommu,
+    showUserCommuById,
+    showEditUserCommuById,
     createUserCommu,
     updateUserCommu,
     deleteUserCommu
