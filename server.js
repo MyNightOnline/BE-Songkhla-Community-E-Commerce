@@ -14,3 +14,5 @@ app.use(express.urlencoded({
 app.use('/', router)
 
 app.listen(PORT, () => console.log('Server: http://localhost:3001'))
+
+module.exports = app
