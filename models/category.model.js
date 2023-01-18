@@ -1,18 +1,18 @@
-const db = require("../config/db.config");
+const db = require("../config/db.config")
 
-const table = "category";
+const table = "category"
 
 // ค้นประเภทสินค้าทั้งหมด
 const getProductType = (result) => {
-  db.query(`SELECT * FROM ${table}`, (err, results) => {
+  db.query(`SELECT * FROM ${table} ORDER BY name`, (err, results) => {
     if (err) {
-      console.log(err);
-      result(err, null);
+      console.log(err)
+      result(err, null)
     } else {
-      result(null, results);
+      result(null, results)
     }
-  });
-};
+  })
+}
 
 // ค้นประเภทสินค้าโดย id
 const getProductTypeById = (id, result) => {
@@ -21,26 +21,26 @@ const getProductTypeById = (id, result) => {
     [id],
     (err, results) => {
       if (err) {
-        console.log(err);
-        result(err, null);
+        console.log(err)
+        result(err, null)
       } else {
-        result(null, results[0]);
+        result(null, results[0])
       }
     }
-  );
-};
+  )
+}
 
 // เพิ่ม ประเภทสินค้า
 const insertProductType = (data, result) => {
   db.query(`INSERT INTO ${table} SET ?`, [data], (err, results) => {
     if (err) {
-      console.log(err);
-      result(err, null);
+      console.log(err)
+      result(err, null)
     } else {
-      result(null, results[0]);
+      result(null, results[0])
     }
-  });
-};
+  })
+}
 
 // เช็คประเภทสินค้าซ้ำ 0 = ไม่มี , 1 = มี
 const checkRepeatProductType = (data, result) => {
@@ -48,14 +48,14 @@ const checkRepeatProductType = (data, result) => {
     `SELECT COUNT(name) FROM ${table} WHERE name = "${data.name}"`,
     (err, results) => {
       if (err) {
-        console.log(err);
-        result(err, null);
+        console.log(err)
+        result(err, null)
       } else {
-        result(null, results);
+        result(null, results)
       }
     }
-  );
-};
+  )
+}
 
 // แก้ไขประเภทสินค้าโดย id
 const updateProductTypeById = (data, id, result) => {
@@ -64,14 +64,14 @@ const updateProductTypeById = (data, id, result) => {
     [data.name, id],
     (err, results) => {
       if (err) {
-        console.log(err);
-        result(err, null);
+        console.log(err)
+        result(err, null)
       } else {
-        result(null, results[0]);
+        result(null, results[0])
       }
     }
-  );
-};
+  )
+}
 
 // ลบประเภทสินค้าโดย id
 const deleteProductTypeById = (id, result) => {
@@ -80,14 +80,14 @@ const deleteProductTypeById = (id, result) => {
     [id],
     (err, results) => {
       if (err) {
-        console.log(err);
-        result(err, null);
+        console.log(err)
+        result(err, null)
       } else {
-        result(null, results[0]);
+        result(null, results[0])
       }
     }
-  );
-};
+  )
+}
 
 module.exports = {
   getProductType,
@@ -96,4 +96,4 @@ module.exports = {
   checkRepeatProductType,
   updateProductTypeById,
   deleteProductTypeById,
-};
+}
