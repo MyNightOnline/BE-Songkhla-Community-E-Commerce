@@ -44,5 +44,4 @@ RELEASE.md
 .jest-cache
 .verdaccio-cache
 .turbo
-
-i-project-api.zip
+.env

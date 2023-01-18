@@ -1,11 +1,14 @@
+require('dotenv').config()
 const mysql = require('mysql2')
 
 const connection = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: '123456789',
-    database: 'shop-songkhla',
-    port: '3307'
+    host: process.env.HOST,
+    user: process.env.USER,
+    password: process.env.PASSWORD,
+    database: process.env.DATABASE,
+    ssl: {
+        rejectUnauthorized: true
+    }
 })
 
 connection.connect((err) => {
@@ -16,3 +19,10 @@ connection.connect((err) => {
 })
 
 module.exports = connection
+
+/**
+ * database: db-shop
+ * username: kd6is0ihe4yf81cisw5o
+ * host: ap-southeast.connect.psdb.cloud
+ * password: pscale_pw_YCOnZTYnMMHfWz7qtWzfzG0E4ejvamZkdYU7aVaogVt
+ */
