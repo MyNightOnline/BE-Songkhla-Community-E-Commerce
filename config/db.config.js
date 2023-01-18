@@ -15,7 +15,7 @@ connection.connect((err) => {
   if (err) {
     return console.error(err)
   }
-  console.log("MYSQL Connection successfully.")
+  console.log("MYSQL Connection successfully. " + process.env.USER)
 })
 
 module.exports = connection
