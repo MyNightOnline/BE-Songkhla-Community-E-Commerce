@@ -6,9 +6,10 @@ const connection = mysql.createConnection({
   user: process.env.USER,
   password: process.env.PASSWORD,
   database: process.env.DATABASE,
-  ssl: {
-    rejectUnauthorized: true,
-  },
+  port: process.env.PORT,
+  // ssl: {
+  //   rejectUnauthorized: true,
+  // },
 })
 
 connection.connect((err) => {
