@@ -1,63 +1,74 @@
-const Product = require("../models/product.model") 
+const Product = require("../models/product.model")
 
 const showProducts = (req, res) => {
-    Product.getProducts((err, results) => {
-        if (err) {
-            res.send(err)
-        } else {
-            res.json(results)
-        }
-    })
+  Product.getProducts((err, results) => {
+    if (err) {
+      res.send(err)
+    } else {
+      res.json(results)
+    }
+  })
+}
+
+const showProductsAdmin = (req, res) => {
+  Product.getProductsAdmin((err, results) => {
+    if (err) {
+      res.send(err)
+    } else {
+      res.json(results)
+    }
+  })
 }
 
 const showProductById = (req, res) => {
-    Product.getProductById(req.params.id, (err, results) => {
-        if (err) {
-            res.send(err)
-        } else {
-            res.json(results)
-        }
-    })
+  Product.getProductById(req.params.id, (err, results) => {
+    if (err) {
+      res.send(err)
+    } else {
+      res.json(results)
+    }
+  })
 }
 
 const createProduct = (req, res) => {
-    const data = req.body
-    Product.insertProduct(data, (err, results) => {
-        if (err) {
-            res.send(err)
-        } else {
-            res.json(results)
-        }
-    })
+  const data = req.body
+  Product.insertProduct(data, (err, results) => {
+    if (err) {
+      res.send(err)
+    } else {
+      res.json(results)
+    }
+  })
 }
 
 const updateProduct = (req, res) => {
-    const data = req.body
-    const id = req.params.id
-    Product.updateProductById(data, id, (err, results) => {
-        if (err) {
-            res.send(err)
-        } else {
-            res.json(results)
-        }
-    })
+  const data = req.body
+  const id = req.params.id
+  Product.updateProductById(data, id, (err, results) => {
+    if (err) {
+      res.send(err)
+    } else {
+      res.json(results)
+    }
+  })
 }
 
 const deleteProduct = (req, res) => {
-    const id = req.params.id
-    Product.deleteProductById(id, (err, results) => {
-        if (err) {
-            res.send(err)
-        } else {
-            res.json(results)
-        }
-    })
+  const id = req.params.id
+  Product.deleteProductById(id, (err, results) => {
+    if (err) {
+      res.send(err)
+    } else {
+      res.json(results)
+    }
+  })
 }
 
 module.exports = {
-    showProducts,
-    showProductById,
-    createProduct,
-    updateProduct,
-    deleteProduct
+  showProducts,
+  showProductsAdmin,
+  showProductById,
+  createProduct,
+  updateProduct,
+  deleteProduct,
 }
