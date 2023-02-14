@@ -20,6 +20,16 @@ const showProductsAdmin = (req, res) => {
   })
 }
 
+const showProductsHome = (req, res) => {
+  Product.getProductsHome((err, results) => {
+    if (err) {
+      res.send(err)
+    } else {
+      res.json(results)
+    }
+  })
+}
+
 const showProductById = (req, res) => {
   Product.getProductById(req.params.id, (err, results) => {
     if (err) {
@@ -67,6 +77,7 @@ const deleteProduct = (req, res) => {
 module.exports = {
   showProducts,
   showProductsAdmin,
+  showProductsHome,
   showProductById,
   createProduct,
   updateProduct,

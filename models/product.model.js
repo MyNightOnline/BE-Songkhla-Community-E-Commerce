@@ -39,6 +39,27 @@ const getProductsAdmin = (result) => {
   )
 }
 
+const getProductsHome = (result) => {
+  db.query(
+    `
+    SELECT * FROM products
+    INNER JOIN users_community
+    ON products.users_commu_id = users_community.users_commu_id
+    INNER JOIN category
+    ON products.category_id = category.category_id
+    ;
+    `,
+    (err, results) => {
+      if (err) {
+        console.log(err)
+        result(err, null)
+      } else {
+        result(null, results)
+      }
+    }
+  )
+}
+
 // ค้นสินค้าโดย id
 const getProductById = (id, result) => {
   db.query(
@@ -117,6 +138,7 @@ const deleteProductById = (id, result) => {
 module.exports = {
   getProducts,
   getProductsAdmin,
+  getProductsHome,
   getProductById,
   insertProduct,
   checkRepeatProduct,

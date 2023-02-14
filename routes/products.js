@@ -6,6 +6,7 @@ const productController = require("../controllers/product.controller")
 
 router.get("/", productController.showProducts)
 router.get("/admin", productController.showProductsAdmin)
+router.get("/home", productController.showProductsHome)
 router.get("/:id", productController.showProductById)
 router.post("/", productController.createProduct)
 router.put("/:id", productController.updateProduct)
