@@ -106,8 +106,23 @@ const checkRepeatProduct = (data, result) => {
 // แก้ไขสินค้าโดย id
 const updateProductById = (data, id, result) => {
   db.query(
-    `UPDATE ${table} SET product_name = ?, product_price = ? WHERE product_id = ?`,
-    [data.product_name, data.product_price, id],
+    `UPDATE ${table} SET name = ?, price = ?, quantity = ? WHERE product_id = ?`,
+    [data.name, data.price, id],
+    (err, results) => {
+      if (err) {
+        console.log(err)
+        result(err, null)
+      } else {
+        result(null, results[0])
+      }
+    }
+  )
+}
+
+const updateProductQuantityById = (data, id, result) => {
+  db.query(
+    `UPDATE ${table} SET quantity = ? WHERE product_id = ?`,
+    [data.quantity, id],
     (err, results) => {
       if (err) {
         console.log(err)
@@ -143,5 +158,6 @@ module.exports = {
   insertProduct,
   checkRepeatProduct,
   updateProductById,
+  updateProductQuantityById,
   deleteProductById,
 }

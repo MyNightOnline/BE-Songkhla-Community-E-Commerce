@@ -63,6 +63,18 @@ const updateProduct = (req, res) => {
   })
 }
 
+const updateProductQuantity = (req, res) => {
+  const data = req.body
+  const id = req.params.id
+  Product.updateProductQuantityById(data, id, (err, results) => {
+    if (err) {
+      res.send(err)
+    } else {
+      res.json(results)
+    }
+  })
+}
+
 const deleteProduct = (req, res) => {
   const id = req.params.id
   Product.deleteProductById(id, (err, results) => {
@@ -81,5 +93,6 @@ module.exports = {
   showProductById,
   createProduct,
   updateProduct,
+  updateProductQuantity,
   deleteProduct,
 }
