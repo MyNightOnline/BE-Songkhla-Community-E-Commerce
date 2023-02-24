@@ -65,15 +65,21 @@ const checkRepeatUsernameUser = (data, result) => {
 
 // แก้ไขผู้ใช้ทั่วไปโดย id
 const updateUserById = (data, id, result) => {
+  if (data.password) {
+    const salt = bcrypt.genSaltSync(saltRounds)
+    data.password = bcrypt.hashSync(data.password, salt)
+  }
   db.query(
-    `UPDATE ${table} SET full_name = ?, mobile = ?, address = ? WHERE users_id = ?`,
-    [data.full_name, data.mobile, data.address, id],
+    `UPDATE ${table} SET ? WHERE users_id = ?`,
+    [data, id],
     (err, results) => {
       if (err) {
         console.log(err)
         result(err, null)
       } else {
-        result(null, results[0])
+        result(null, {
+          data,
+        })
       }
     }
   )
