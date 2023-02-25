@@ -1,5 +1,5 @@
 const db = require("../config/db.config")
-const bcrypt = require("bcryptjs")
+var bcrypt = require("bcryptjs")
 const saltRounds = 10
 
 const table = "users_community"
@@ -56,12 +56,12 @@ const getEditUserCommuById = (id, result) => {
 
 // เพิ่ม ผู้ใช้ทั่วไป
 const insertUserCommu = async (data, result) => {
-  const salt = bcrypt.genSaltSync(saltRounds)
+  var salt = bcrypt.genSaltSync(10)
   data.password = bcrypt.hashSync(data.password, salt)
 
   db.query(
     `
-        INSERT INTO ${table} (username, password, full_name) 
+        INSERT INTO ${table} (username, password, full_name)
         VALUES ("${data.username}", "${data.password}", "${data.full_name}")
         `,
     [data],
@@ -75,9 +75,9 @@ const insertUserCommu = async (data, result) => {
           : (data.confirm_status = 1)
         db.query(
           `
-                    INSERT INTO community (name, address, mobile, regis_code, amp, tam, confirm_status, users_commu_id) 
-                    VALUES ("${data.name}","${data.address}","${data.mobile}","${data.regis_code}","${data.amp}","${data.tam}",${data.confirm_status},${results.insertId})
-                    `
+          INSERT INTO community (name, address, mobile, regis_code, amp, tam, confirm_status, users_commu_id)
+          VALUES ("${data.name}","${data.address}","${data.mobile}","${data.regis_code}","${data.amp}","${data.tam}",${data.confirm_status},${results.insertId})
+          `
         )
         result(null, results)
       }
