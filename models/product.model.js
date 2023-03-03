@@ -39,6 +39,25 @@ const getProductsAdmin = (result) => {
   )
 }
 
+const getProductsShop = (id, result) => {
+  db.query(
+    `
+      SELECT * FROM products
+      INNER JOIN users_community
+      ON users_community.users_commu_id = products.users_commu_id
+      WHERE products.users_commu_id = "${id}"
+    `,
+    (err, results) => {
+      if (err) {
+        console.log(err)
+        result(err, null)
+      } else {
+        result(null, results)
+      }
+    }
+  )
+}
+
 const getProductsHome = (result) => {
   db.query(
     `
@@ -154,6 +173,7 @@ module.exports = {
   getProducts,
   getProductsAdmin,
   getProductsHome,
+  getProductsShop,
   getProductById,
   insertProduct,
   checkRepeatProduct,

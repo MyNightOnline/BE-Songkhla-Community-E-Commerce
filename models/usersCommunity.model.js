@@ -103,55 +103,17 @@ const checkRepeatUsernameUserCommu = (data, result) => {
 // แก้ไขผู้ใช้ทั่วไปโดย id
 const updateUserCommuById = (data, id, result) => {
   if (!data.password) {
+    delete data.password
     db.query(
-      `
-          SELECT users_community.users_commu_id
-          FROM users_community
-          INNER JOIN community
-          ON users_community.users_commu_id = community.users_commu_id
-          WHERE commu_id = ${id}
-          `,
-      [id],
-      (err, results1) => {
-        db.query(
-          `UPDATE ${table} SET full_name = ? WHERE users_commu_id = ?`,
-          [data.full_name, results1[0].users_commu_id],
-          (err, results) => {
-            if (err) {
-              console.log(err)
-              result(err, null)
-            } else {
-              result(null, results[0])
-            }
-          }
-        )
-      }
-    )
-  } else {
-    const salt = bcrypt.genSaltSync(saltRounds)
-    data.password = bcrypt.hashSync(data.password, salt)
-    db.query(
-      `
-          SELECT users_community.users_commu_id
-          FROM users_community
-          INNER JOIN community
-          ON users_community.users_commu_id = community.users_commu_id
-          WHERE commu_id = ${id}
-          `,
-      [id],
-      (err, results1) => {
-        db.query(
-          `UPDATE ${table} SET full_name = ?, password = ? WHERE users_commu_id = ?`,
-          [data.full_name, data.password, results1[0].users_commu_id],
-          (err, results) => {
-            if (err) {
-              console.log(err)
-              result(err, null)
-            } else {
-              result(null, results[0])
-            }
-          }
-        )
+      `UPDATE users_community SET ? WHERE users_commu_id = "${id}"`,
+      [data, id],
+      (err, results) => {
+        if (err) {
+          console.log(err)
+          result(err, null)
+        } else {
+          result(null, results)
+        }
       }
     )
   }
