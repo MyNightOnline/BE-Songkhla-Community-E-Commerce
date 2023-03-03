@@ -5,6 +5,8 @@ const PORT = 3001
 
 const router = require("./routes")
 
+app.use(express.static("./public"))
+
 app.use(cors())
 app.use(express.json())
 app.use(
@@ -13,9 +15,6 @@ app.use(
   })
 )
 
-app.use("/test", (req, res) => {
-  res.send("hello world")
-})
 app.use("/", router)
 
 app.listen(PORT, () => console.log("Server: http://localhost:3001"))
