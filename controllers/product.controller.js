@@ -52,8 +52,7 @@ const showProductById = (req, res) => {
 }
 
 const createProduct = (req, res) => {
-  const data = req.body
-  Product.insertProduct(data, (err, results) => {
+  Product.insertProduct(req, (err, results) => {
     if (err) {
       res.send(err)
     } else {
@@ -63,9 +62,8 @@ const createProduct = (req, res) => {
 }
 
 const updateProduct = (req, res) => {
-  const data = req.body
   const id = req.params.id
-  Product.updateProductById(data, id, (err, results) => {
+  Product.updateProductById(req, id, (err, results) => {
     if (err) {
       res.send(err)
     } else {
