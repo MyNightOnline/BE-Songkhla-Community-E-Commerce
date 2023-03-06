@@ -1,5 +1,5 @@
 const db = require("../config/db.config")
-
+const multer = require("multer")
 const table = "products"
 
 // ค้นสินค้าทั้งหมด
@@ -96,12 +96,14 @@ const getProductById = (id, result) => {
 }
 
 // เพิ่ม สินค้า
-const insertProduct = (data, result) => {
-  db.query(`INSERT INTO ${table} SET ?`, [data], (err, results) => {
+const insertProduct = (req, result) => {
+  req.body.product_image = req.file.originalname
+  db.query(`INSERT INTO ${table} SET ?`, [req.body], (err, results) => {
     if (err) {
       console.log(err)
       result(err, null)
     } else {
+      console.log("upload success")
       result(null, results[0])
     }
   })
@@ -123,15 +125,18 @@ const checkRepeatProduct = (data, result) => {
 }
 
 // แก้ไขสินค้าโดย id
-const updateProductById = (data, id, result) => {
+const updateProductById = (req, id, result) => {
+  if (req.file) req.body.product_image = req.file.originalname
+  else delete req.body.file
   db.query(
-    `UPDATE ${table} SET name = ?, price = ?, quantity = ? WHERE product_id = ?`,
-    [data.name, data.price, id],
+    `UPDATE ${table} SET ? WHERE product_id = ?`,
+    [req.body, id],
     (err, results) => {
       if (err) {
         console.log(err)
         result(err, null)
       } else {
+        console.log("update success")
         result(null, results[0])
       }
     }

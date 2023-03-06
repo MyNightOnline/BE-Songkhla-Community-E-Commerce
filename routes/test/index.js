@@ -17,7 +17,7 @@ connection.connect((err) => {
   if (err) {
     return console.error(err)
   }
-  console.log("MYSQL Connection successfully2. " + process.env.USER)
+  console.log("MYSQL Connection successfully. " + process.env.USER + "(Test)")
 })
 
 const storage = multer.diskStorage({
@@ -31,7 +31,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage })
 
-router.post("/", upload.single("file"), function (req, res) {
+router.post("/", upload.single("file"), (req, res) => {
   // req.file is the name of your file in the form above, here 'uploaded_file'
   // req.body will hold the text fields, if there were any
   var imgsrc = "http://localhost:3001/images/" + req.file.originalname
