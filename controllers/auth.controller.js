@@ -7,20 +7,20 @@ const signinAdmin = (req, res) => {
         SELECT * FROM users_admin WHERE username = "${req.body.username}"
     `,
     (err, results) => {
-      if (err || results == 0)
+      if (err || results == 0) {
         return res.send({
-          error: err,
           msg: "Password or username is incorrect.",
         })
+      }
+
       var passwordIsValid = bcrypt.compareSync(
         req.body.password,
         results[0].password
       )
 
       if (!passwordIsValid) {
-        return res.status(401).send({
-          accessToken: null,
-          message: "Invalid Password!",
+        return res.send({
+          msg: "Password or username is incorrect.",
         })
       }
 
