@@ -75,8 +75,8 @@ const insertUserCommu = async (data, result) => {
           : (data.confirm_status = 1)
         db.query(
           `
-          INSERT INTO community (name, address, mobile, regis_code, amp, tam, confirm_status, users_commu_id)
-          VALUES ("${data.name}","${data.address}","${data.mobile}","${data.regis_code}","${data.amp}","${data.tam}",${data.confirm_status},${results.insertId})
+          INSERT INTO community (name, person, address, mobile, regis_code, amp, tam, confirm_status, users_commu_id)
+          VALUES ("${data.name}", "${data.person}","${data.address}","${data.mobile}","${data.regis_code}","${data.amp}","${data.tam}",${data.confirm_status},${results.insertId})
           `
         )
         result(null, results)

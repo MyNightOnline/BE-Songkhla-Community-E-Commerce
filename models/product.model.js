@@ -96,17 +96,51 @@ const getProductById = (id, result) => {
 }
 
 // เพิ่ม สินค้า
-const insertProduct = (req, result) => {
-  req.body.product_image = req.file.originalname
-  db.query(`INSERT INTO ${table} SET ?`, [req.body], (err, results) => {
-    if (err) {
-      console.log(err)
-      result(err, null)
-    } else {
-      console.log("upload success")
-      result(null, results[0])
-    }
+const insertProduct = async (req, result) => {
+  const admin = require("firebase-admin")
+  const serviceAccount = require("../config/serviceAccountKey.json")
+  admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount),
+    storageBucket: "skru-project-c1214.appspot.com",
   })
+  const files = req.files
+  try {
+    // Upload each file to Firebase Storage
+    const urls = await Promise.all(
+      Object.values(files).map(async (file) => {
+        const bucket = admin.storage().bucket()
+        const { originalname } = file[0]
+        const newFileName = `images/${Date.now()}_${originalname}`
+        const fileRef = bucket.file(newFileName)
+
+        await fileRef.save(file[0].buffer, {
+          contentType: file[0].mimetype,
+        })
+
+        // Get download URL for the uploaded file
+        return await fileRef.getSignedUrl({
+          action: "read",
+          expires: "03-17-2024",
+        })
+      })
+    )
+
+    // Send the download URLs as a response
+    req.body.image_1 = urls[0][0]
+    req.body.image_2 = urls[1][0]
+    req.body.image_3 = urls[2][0]
+    db.query(`INSERT INTO ${table} SET ?`, [req.body], (err, results) => {
+      if (err) {
+        console.log(err)
+        result(err, null)
+      } else {
+        console.log("upload success")
+        result(null, results[0])
+      }
+    })
+  } catch (error) {
+    console.error(error)
+  }
 }
 
 // เช็คสินค้าซ้ำ 0 = ไม่มี , 1 = มี
@@ -126,8 +160,6 @@ const checkRepeatProduct = (data, result) => {
 
 // แก้ไขสินค้าโดย id
 const updateProductById = (req, id, result) => {
-  if (req.file) req.body.product_image = req.file.originalname
-  else delete req.body.file
   db.query(
     `UPDATE ${table} SET ? WHERE product_id = ?`,
     [req.body, id],

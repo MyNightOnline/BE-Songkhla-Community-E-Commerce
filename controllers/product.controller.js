@@ -56,6 +56,7 @@ const createProduct = (req, res) => {
     if (err) {
       res.send(err)
     } else {
+      console.log("tool")
       res.json(results)
     }
   })
