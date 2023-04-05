@@ -2,6 +2,13 @@ const db = require("../config/db.config")
 const multer = require("multer")
 const table = "products"
 
+const admin = require("firebase-admin")
+const serviceAccount = require("../config/serviceAccountKey.json")
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  storageBucket: "skru-project-c1214.appspot.com",
+})
+
 // ค้นสินค้าทั้งหมด
 const getProducts = (result) => {
   db.query(`SELECT * FROM ${table}`, (err, results) => {
@@ -97,12 +104,6 @@ const getProductById = (id, result) => {
 
 // เพิ่ม สินค้า
 const insertProduct = async (req, result) => {
-  const admin = require("firebase-admin")
-  const serviceAccount = require("../config/serviceAccountKey.json")
-  admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount),
-    storageBucket: "skru-project-c1214.appspot.com",
-  })
   const files = req.files
   try {
     // Upload each file to Firebase Storage
@@ -159,20 +160,57 @@ const checkRepeatProduct = (data, result) => {
 }
 
 // แก้ไขสินค้าโดย id
-const updateProductById = (req, id, result) => {
-  db.query(
-    `UPDATE ${table} SET ? WHERE product_id = ?`,
-    [req.body, id],
-    (err, results) => {
-      if (err) {
-        console.log(err)
-        result(err, null)
-      } else {
-        console.log("update success")
-        result(null, results[0])
+const updateProductById = async (req, id, result) => {
+  const files = req.files
+  try {
+    // Upload each file to Firebase Storage
+    const urls = await Promise.all(
+      Object.values(files).map(async (file) => {
+        const bucket = admin.storage().bucket()
+        const { originalname } = file[0]
+        const newFileName = `images/${Date.now()}_${originalname}`
+        const fileRef = bucket.file(newFileName)
+
+        await fileRef.save(file[0].buffer, {
+          contentType: file[0].mimetype,
+        })
+
+        // Get download URL for the uploaded file
+        return await fileRef.getSignedUrl({
+          action: "read",
+          expires: "03-17-2024",
+        })
+      })
+    )
+
+    Object.values(files).map(async (file, index) => {
+      if (file[0].fieldname == "file1") {
+        req.body.image_1 = urls[index][0]
       }
-    }
-  )
+      if (file[0].fieldname == "file2") {
+        req.body.image_2 = urls[index][0]
+      }
+      if (file[0].fieldname == "file3") {
+        req.body.image_3 = urls[index][0]
+      }
+    })
+
+    db.query(
+      `UPDATE ${table} SET ? WHERE product_id = ?`,
+      [req.body, id],
+      (err, results) => {
+        if (err) {
+          console.log(err)
+          result(err, null)
+        } else {
+          console.log("update success " + new Date())
+          result(null, results[0])
+        }
+      }
+    )
+  } catch (error) {
+    console.error(error)
+  }
 }
 
 const updateProductQuantityById = (data, id, result) => {

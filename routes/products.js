@@ -26,7 +26,15 @@ router.post(
   ]),
   productController.createProduct
 )
-router.put("/:id", upload.single("file"), productController.updateProduct)
+router.put(
+  "/:id",
+  upload.fields([
+    { name: "file1", maxCount: 1 },
+    { name: "file2", maxCount: 1 },
+    { name: "file3", maxCount: 1 },
+  ]),
+  productController.updateProduct
+)
 router.put("/qty/:id", productController.updateProductQuantity)
 router.delete("/:id", productController.deleteProduct)
 

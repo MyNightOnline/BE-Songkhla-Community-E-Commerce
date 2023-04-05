@@ -21,6 +21,4 @@ router.use("/api/orders", ordersRoutes)
 
 router.use("/api/auth", require("./auth"))
 
-router.use("/test/upload", require("./test"))
-
 module.exports = router
