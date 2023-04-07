@@ -21,6 +21,17 @@ const showOrderById = (req, res) => {
   })
 }
 
+const showPaymentById = (req, res) => {
+  const id = req.params.id
+  Order.getPaymentById(id, (err, results) => {
+    if (err) {
+      res.send(err)
+    } else {
+      res.json(results)
+    }
+  })
+}
+
 const showOrderDetailById = (req, res) => {
   const id = req.params.id
   Order.getOrderDetailById(id, (err, results) => {
@@ -66,6 +77,7 @@ const createOrderDetail = (req, res) => {
 module.exports = {
   showOrders,
   showOrderById,
+  showPaymentById,
   showOrderDetailById,
   updateOrder,
   createOrder,

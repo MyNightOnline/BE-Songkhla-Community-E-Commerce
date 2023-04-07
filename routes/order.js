@@ -12,4 +12,6 @@ router.post("/detail", orderController.createOrderDetail)
 
 router.put("/:id", orderController.updateOrder)
 
+router.get("/payment/:id", orderController.showPaymentById)
+
 module.exports = router

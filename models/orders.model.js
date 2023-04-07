@@ -28,6 +28,21 @@ const getOrderById = (id, result) => {
   )
 }
 
+const getPaymentById = (id, result) => {
+  db.query(
+    `SELECT * FROM payment WHERE payment_id = ?`,
+    [id],
+    (err, results) => {
+      if (err) {
+        console.log(err)
+        result(err, null)
+      } else {
+        result(null, results)
+      }
+    }
+  )
+}
+
 const getOrderDetailById = (id, result) => {
   db.query(
     `SELECT * FROM order_details WHERE order_id = ?`,
@@ -83,6 +98,7 @@ const insertOederDetail = (data, result) => {
 module.exports = {
   getOrders,
   getOrderById,
+  getPaymentById,
   getOrderDetailById,
   updateOrderById,
   insertOrder,
