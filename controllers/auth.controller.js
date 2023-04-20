@@ -105,6 +105,7 @@ const signinUserCommu = (req, res) => {
 
             commu_id: results2[0].commu_id,
             name: results2[0].name,
+            person: results2[0].person,
             address: results2[0].address,
             mobile: results2[0].mobile,
             promptpay: results2[0].promptpay,

@@ -1,6 +1,6 @@
 const db = require("../config/db.config")
-var bcrypt = require("bcryptjs")
-const saltRounds = 10
+let bcrypt = require("bcryptjs")
+let salt = bcrypt.genSaltSync(10)
 
 const table = "users_community"
 
@@ -56,7 +56,6 @@ const getEditUserCommuById = (id, result) => {
 
 // เพิ่ม ผู้ใช้ทั่วไป
 const insertUserCommu = async (data, result) => {
-  var salt = bcrypt.genSaltSync(10)
   data.password = bcrypt.hashSync(data.password, salt)
 
   db.query(
@@ -102,21 +101,20 @@ const checkRepeatUsernameUserCommu = (data, result) => {
 
 // แก้ไขผู้ใช้ทั่วไปโดย id
 const updateUserCommuById = (data, id, result) => {
-  if (!data.password) {
-    delete data.password
-    db.query(
-      `UPDATE users_community SET ? WHERE users_commu_id = "${id}"`,
-      [data, id],
-      (err, results) => {
-        if (err) {
-          console.log(err)
-          result(err, null)
-        } else {
-          result(null, results)
-        }
+  if (data.password == "") delete data.password
+  else data.password = bcrypt.hashSync(data.password, salt)
+  db.query(
+    `UPDATE users_community SET ? WHERE users_commu_id = "${id}"`,
+    [data, id],
+    (err, results) => {
+      if (err) {
+        console.log(err)
+        result(err, null)
+      } else {
+        result(null, results)
       }
-    )
-  }
+    }
+  )
 }
 
 // ลบผู้ใช้ทั่วไปโดย id
