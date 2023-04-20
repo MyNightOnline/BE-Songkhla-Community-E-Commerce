@@ -7,6 +7,7 @@ const userCommuRoutes = require("./usersCommunity")
 const categoryRoutes = require("./category")
 const productsRoutes = require("./products")
 const ordersRoutes = require("./order")
+const paymentRoutes = require("./payment")
 
 const commu = require("./commu")
 
@@ -15,6 +16,7 @@ router.use("/api/auth/users-admin", adminRoutes)
 router.use("/api/auth/users-community", userCommuRoutes)
 router.use("/api/category", categoryRoutes)
 router.use("/api/products", productsRoutes)
+router.use("/api/payment", paymentRoutes)
 
 router.use("/api/commu", commu)
 router.use("/api/orders", ordersRoutes)
