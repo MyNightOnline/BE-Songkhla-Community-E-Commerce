@@ -6,6 +6,10 @@ const orderController = require("../controllers/orders.controller")
 router.get("/", orderController.showOrders)
 router.get("/:id", orderController.showOrderById)
 router.get("/detail/:id", orderController.showOrderDetailById)
+router.get(
+  "/detail/users_commu_id/:id",
+  orderController.showOrderDetailByusers_commu_id
+)
 
 router.post("/", orderController.createOrder)
 router.post("/detail", orderController.createOrderDetail)
