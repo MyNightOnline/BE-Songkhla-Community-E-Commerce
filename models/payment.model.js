@@ -11,6 +11,17 @@ const getPayments = (result) => {
   })
 }
 
+const getPaymentById = (id, result) => {
+  db.query(`SELECT * FROM bank WHERE bank_id = '${id}'`, (err, results) => {
+    if (err) {
+      console.log(err)
+      result(err, null)
+    } else {
+      result(null, results)
+    }
+  })
+}
+
 const insertPayment = (data, result) => {
   db.query(`INSERT INTO bank SET ?`, [data], (err, results) => {
     if (err) {
@@ -50,6 +61,7 @@ const deletePaymentById = (id, result) => {
 
 module.exports = {
   getPayments,
+  getPaymentById,
   insertPayment,
   updatePaymentById,
   deletePaymentById,

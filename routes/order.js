@@ -18,4 +18,6 @@ router.put("/:id", orderController.updateOrder)
 
 router.get("/payment/:id", orderController.showPaymentById)
 
+router.delete("/:id", orderController.delteOrderAndOrderDetails)
+
 module.exports = router

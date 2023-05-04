@@ -85,6 +85,17 @@ const createOrderDetail = (req, res) => {
   })
 }
 
+const delteOrderAndOrderDetails = (req, res) => {
+  const id = req.params.id
+  Order.delteOrderAndOrderDetails(req, id, (err, results) => {
+    if (err) {
+      res.send(err)
+    } else {
+      res.json(results)
+    }
+  })
+}
+
 module.exports = {
   showOrders,
   showOrderById,
@@ -94,4 +105,5 @@ module.exports = {
   updateOrder,
   createOrder,
   createOrderDetail,
+  delteOrderAndOrderDetails,
 }
