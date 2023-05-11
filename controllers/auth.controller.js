@@ -2,6 +2,7 @@ const db = require("../config/db.config")
 const bcrypt = require("bcryptjs")
 
 const signinAdmin = (req, res) => {
+  console.log(req.body)
   db.query(
     `
         SELECT * FROM users_admin WHERE username = "${req.body.username}"
