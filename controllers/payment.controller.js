@@ -21,6 +21,17 @@ const showPaymentById = (req, res) => {
   })
 }
 
+const showPaymentByCommuId = (req, res) => {
+  const id = req.params.id
+  Payment.getPaymentByCommuId(id, (err, results) => {
+    if (err) {
+      res.send(err)
+    } else {
+      res.json(results)
+    }
+  })
+}
+
 const createPayment = (req, res) => {
   const data = req.body
   Payment.insertPayment(data, (err, results) => {
@@ -58,6 +69,7 @@ const deletePayment = (req, res) => {
 module.exports = {
   showPayment,
   showPaymentById,
+  showPaymentByCommuId,
   createPayment,
   updatePayment,
   deletePayment,
