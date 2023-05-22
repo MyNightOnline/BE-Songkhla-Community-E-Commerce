@@ -38,7 +38,6 @@ const insertSlipPayment = async (req, result) => {
 
     // Send the download URLs as a response
     req.body.payment_image = urls[0][0]
-    req.body.order_id = 14
     db.query(`INSERT INTO ${table} SET ?`, [req.body], (err, results) => {
       if (err) {
         console.log(err)
@@ -51,6 +50,21 @@ const insertSlipPayment = async (req, result) => {
   } catch (error) {
     console.error(error)
   }
+}
+
+const updatePaymentByOrderId = async (req, id, result) => {
+  db.query(
+    `UPDATE ${table} SET order_id = ? WHERE payment_id = ?`,
+    [req.order_id, id],
+    (err, results) => {
+      if (err) {
+        console.log(err)
+        result(err, null)
+      } else {
+        result(null, results[0])
+      }
+    }
+  )
 }
 
 module.exports = {

@@ -5,6 +5,7 @@ const orderController = require("../controllers/orders.controller")
 
 router.get("/", orderController.showOrders)
 router.get("/:id", orderController.showOrderById)
+router.get("/user/:id", orderController.showOrderByUserId)
 router.get("/detail/:id", orderController.showOrderDetailById)
 router.get(
   "/detail/users_commu_id/:id",

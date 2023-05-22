@@ -21,6 +21,17 @@ const showOrderById = (req, res) => {
   })
 }
 
+const showOrderByUserId = (req, res) => {
+  const id = req.params.id
+  Order.getOrderByUserId(id, (err, results) => {
+    if (err) {
+      res.send(err)
+    } else {
+      res.json(results)
+    }
+  })
+}
+
 const showPaymentById = (req, res) => {
   const id = req.params.id
   Order.getPaymentById(id, (err, results) => {
@@ -99,6 +110,7 @@ const delteOrderAndOrderDetails = (req, res) => {
 module.exports = {
   showOrders,
   showOrderById,
+  showOrderByUserId,
   showPaymentById,
   showOrderDetailById,
   showOrderDetailByusers_commu_id,

@@ -22,25 +22,32 @@ const getOrderById = (id, result) => {
         console.log(err)
         result(err, null)
       } else {
-        result(null, results)
+        result(null, results[0])
       }
     }
   )
 }
 
-const getPaymentById = (id, result) => {
-  db.query(
-    `SELECT * FROM payment WHERE payment_id = ?`,
-    [id],
-    (err, results) => {
-      if (err) {
-        console.log(err)
-        result(err, null)
-      } else {
-        result(null, results)
-      }
+const getOrderByUserId = (id, result) => {
+  db.query(`SELECT * FROM orders where users_id = ?`, [id], (err, results) => {
+    if (err) {
+      console.log(err)
+      result(err, null)
+    } else {
+      result(null, results)
     }
-  )
+  })
+}
+
+const getPaymentById = (id, result) => {
+  db.query(`SELECT * FROM payment WHERE order_id = ?`, [id], (err, results) => {
+    if (err) {
+      console.log(err)
+      result(err, null)
+    } else {
+      result(null, results[0])
+    }
+  })
 }
 
 const getOrderDetailById = (id, result) => {
@@ -144,6 +151,7 @@ const delteOrderAndOrderDetails = (req, id, result) => {
 module.exports = {
   getOrders,
   getOrderById,
+  getOrderByUserId,
   getPaymentById,
   getOrderDetailById,
   getOrderDetailByusers_commu_id,
