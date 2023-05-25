@@ -35,6 +35,7 @@ router.put(
   ]),
   productController.updateProduct
 )
+router.put("/commu/:id", productController.updateProductCommunityId)
 router.put("/qty/:id", productController.updateProductQuantity)
 router.delete("/:id", productController.deleteProduct)
 

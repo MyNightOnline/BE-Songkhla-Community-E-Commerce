@@ -19,15 +19,15 @@ const getProducts = (result) => {
 const getProductsAdmin = (result) => {
   db.query(
     `
-    SELECT products.name, category.name AS category, community.amp, products.otop FROM products
+    SELECT *, community.name as communame, category.name as categoryname, products.name as productname
+    FROM products
     INNER JOIN users_community
     ON products.users_commu_id = users_community.users_commu_id
     INNER JOIN community
     ON users_community.users_commu_id = community.users_commu_id
     INNER JOIN category
     ON products.category_id = category.category_id
-    ORDER BY name
-    ;
+    ORDER BY products.name
     `,
     (err, results) => {
       if (err) {
@@ -222,6 +222,21 @@ const updateProductQuantityById = (data, id, result) => {
   )
 }
 
+const updateProductCommunityId = (id, result) => {
+  db.query(
+    `UPDATE products SET users_commu_id = '0' WHERE (product_id = ?)`,
+    [id],
+    (err, results) => {
+      if (err) {
+        console.log(err)
+        result(err, null)
+      } else {
+        result(null, results[0])
+      }
+    }
+  )
+}
+
 // ลบสินค้าโดย id
 const deleteProductById = (id, result) => {
   db.query(
@@ -248,5 +263,6 @@ module.exports = {
   checkRepeatProduct,
   updateProductById,
   updateProductQuantityById,
+  updateProductCommunityId,
   deleteProductById,
 }
