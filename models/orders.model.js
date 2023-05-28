@@ -87,6 +87,29 @@ const getOrderDetailByusers_commu_id = (id, result) => {
   )
 }
 
+const getOrderPaidByUserCommuId = (id, result) => {
+  db.query(
+    `SELECT *, order_details.price as order_details_price
+    FROM orders
+    INNER JOIN order_details
+    ON orders.order_id = order_details.order_id
+    INNER JOIN products
+    ON products.product_id = order_details.product_id
+    WHERE products.users_commu_id = ${id} && orders.order_status = 3
+    ORDER BY orders.order_id
+    ;`,
+    [id],
+    (err, results) => {
+      if (err) {
+        console.log(err)
+        result(err, null)
+      } else {
+        result(null, results)
+      }
+    }
+  )
+}
+
 const updateOrderById = (req, id, result) => {
   db.query(
     `UPDATE ${table} SET ? WHERE order_id = ?`,
@@ -155,6 +178,7 @@ module.exports = {
   getPaymentById,
   getOrderDetailById,
   getOrderDetailByusers_commu_id,
+  getOrderPaidByUserCommuId,
   updateOrderById,
   insertOrder,
   insertOederDetail,

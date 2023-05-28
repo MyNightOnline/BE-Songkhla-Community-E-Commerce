@@ -65,6 +65,17 @@ const showOrderDetailByusers_commu_id = (req, res) => {
   })
 }
 
+const showOrderPaidByUserCommuId = (req, res) => {
+  const id = req.params.id
+  Order.getOrderPaidByUserCommuId(id, (err, results) => {
+    if (err) {
+      res.send(err)
+    } else {
+      res.json(results)
+    }
+  })
+}
+
 const updateOrder = (req, res) => {
   const id = req.params.id
 
@@ -114,6 +125,7 @@ module.exports = {
   showPaymentById,
   showOrderDetailById,
   showOrderDetailByusers_commu_id,
+  showOrderPaidByUserCommuId,
   updateOrder,
   createOrder,
   createOrderDetail,

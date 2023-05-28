@@ -11,6 +11,7 @@ router.get(
   "/detail/users_commu_id/:id",
   orderController.showOrderDetailByusers_commu_id
 )
+router.get("/commu-paid/:id", orderController.showOrderPaidByUserCommuId)
 
 router.post("/", orderController.createOrder)
 router.post("/detail", orderController.createOrderDetail)
