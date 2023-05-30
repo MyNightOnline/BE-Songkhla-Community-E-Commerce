@@ -58,6 +58,21 @@ const getCommuById = (id, result) => {
   )
 }
 
+const getCommuById2 = (id, result) => {
+  db.query(
+    `SELECT * FROM community WHERE users_commu_id = ?`,
+    [id],
+    (err, results) => {
+      if (err) {
+        console.log(err)
+        result(err, null)
+      } else {
+        result(null, results[0])
+      }
+    }
+  )
+}
+
 // เพิ่ม ผู้ใช้ทั่วไป
 const insertCommu = (data, result) => {
   data.status = 0
@@ -119,6 +134,7 @@ module.exports = {
   getCommuConfirmed,
   getPending,
   getCommuById,
+  getCommuById2,
   insertCommu,
   checkRepeatCommu,
   updateCommuById,
