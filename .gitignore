@@ -1,47 +1,32 @@
 # Logs
 logs
 *.log
-npm-debug.log*
 
-# Dependency directory
-**/node_modules/**
-_node_modules
-.pnp.cjs
+# Dependencies
+node_modules/
 
-# Coverage directory used by tools like istanbul
-coverage
+# Build output
+dist/
+build/
+out/
+*.zip
 
-.tmp
-_docpress
-
-lib
-dist
-tsconfig.tsbuildinfo
-
-# Visual Studio Code configs
-.vscode/
-
-# JetBrains IDEs
-.idea/
-
-# pnpm uses npm for publishing a new version with
-# dependencies bundled but the npm lockfile is not needed
-# because pnpm use pnpm for installation
-package-lock.json
-
-__package_previews__
-.store
-
-privatePackages/store
-
-## Verdaccio storage
-storage
-
-yarn.lock
-
-RELEASE.md
-
-.jest-cache
-.verdaccio-cache
-.turbo
+# Environment variables
 .env
+
+# IDE and Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Test coverage
+coverage/
+
+# Compiled binaries
+*.o
+*.pyc
+
+# Miscellaneous
+*.DS_Store
+Thumbs.db
