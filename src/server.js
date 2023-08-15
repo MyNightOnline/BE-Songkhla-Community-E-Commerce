@@ -15,6 +15,7 @@ class App {
       express.urlencoded({ extended: false })
     )
     this.app.use(cors())
+    this.app.get("/", (req, res) => res.send("Hello"))
     this.app.use("/", require("./routes"))
   }
 
