@@ -15,7 +15,8 @@ const upload = multer({
 router.get("/", productController.showProducts)
 router.get("/admin", productController.showProductsAdmin)
 router.get("/home", productController.showProductsHome)
-router.get("/shop", productController.showProductsShop)
+router.get("/shop", productController.showProductsShop2)
+router.get("/shop/:id", productController.showProductsShop)
 router.get("/:id", productController.showProductById)
 router.post(
   "/",

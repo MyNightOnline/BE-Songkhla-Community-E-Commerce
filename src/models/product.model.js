@@ -41,6 +41,32 @@ const getProductsAdmin = (result) => {
 }
 
 const getProductsShop = (id, result) => {
+  console.log(id)
+  db.query(
+    `
+    SELECT *, category.name as category_name, community.name as community_name FROM products
+    INNER JOIN users_community
+    ON users_community.users_commu_id = products.users_commu_id
+    INNER JOIN community
+    ON users_community.users_commu_id = community.users_commu_id
+    INNER JOIN category
+    ON products.category_id = category.category_id
+    WHERE community.users_commu_id = ?;
+    `,
+    [id],
+    (err, results) => {
+      if (err) {
+        console.log(err)
+        result(err, null)
+      } else {
+        result(null, results)
+      }
+    }
+  )
+}
+
+const getProductsShop2 = (id, result) => {
+  console.log(id)
   db.query(
     `
     SELECT *, category.name as category_name, community.name as community_name FROM products
@@ -261,6 +287,7 @@ module.exports = {
   getProductsAdmin,
   getProductsHome,
   getProductsShop,
+  getProductsShop2,
   getProductById,
   insertProduct,
   checkRepeatProduct,
