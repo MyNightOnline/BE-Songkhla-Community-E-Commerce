@@ -144,7 +144,7 @@ const insertProduct = async (req, result) => {
         // Get download URL for the uploaded file
         return await fileRef.getSignedUrl({
           action: "read",
-          expires: "03-17-2024",
+          expires: "01-31-2025",
         })
       })
     )
